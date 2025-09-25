@@ -1,0 +1,116 @@
+long c;
+long inicio, fim, tempo;
+
+// Variáveis de diferentes tipos
+byte b_i, b_j;
+int i_int, j_int;
+float i_float, j_float;
+long i_long, j_long;
+
+void setup() {
+  Serial.begin(9600);
+  delay(2000); // aguarda monitor serial abrir
+}
+
+void loop() {
+  Serial.println("Medindo tempo de operacoes...");
+
+  // ================= BYTE =================
+  b_i = 1; b_j = 3;
+
+  // Adição
+  inicio = micros();
+  for(c=0; c<1000000; c++) b_i = b_i + b_j;
+  fim = micros();
+  Serial.print("BYTE + : "); Serial.println(fim - inicio);
+
+  // Multiplicação
+  b_i = 1; // reset
+  inicio = micros();
+  for(c=0; c<1000000; c++) b_i = b_i * b_j;
+  fim = micros();
+  Serial.print("BYTE * : "); Serial.println(fim - inicio);
+
+  // OR
+  b_i = 1; // reset
+  inicio = micros();
+  for(c=0; c<1000000; c++) b_i = b_i | b_j;
+  fim = micros();
+  Serial.print("BYTE | : "); Serial.println(fim - inicio);
+
+  // AND
+  b_i = 1; // reset
+  inicio = micros();
+  for(c=0; c<1000000; c++) b_i = b_i & b_j;
+  fim = micros();
+  Serial.print("BYTE & : "); Serial.println(fim - inicio);
+
+  // ================= INT =================
+  i_int = 1; j_int = 3;
+
+  inicio = micros();
+  for(c=0; c<1000000; c++) i_int = i_int + j_int;
+  fim = micros();
+  Serial.print("INT + : "); Serial.println(fim - inicio);
+
+  i_int = 1;
+  inicio = micros();
+  for(c=0; c<1000000; c++) i_int = i_int * j_int;
+  fim = micros();
+  Serial.print("INT * : "); Serial.println(fim - inicio);
+
+  i_int = 1;
+  inicio = micros();
+  for(c=0; c<1000000; c++) i_int = i_int | j_int;
+  fim = micros();
+  Serial.print("INT | : "); Serial.println(fim - inicio);
+
+  i_int = 1;
+  inicio = micros();
+  for(c=0; c<1000000; c++) i_int = i_int & j_int;
+  fim = micros();
+  Serial.print("INT & : "); Serial.println(fim - inicio);
+
+  // ================= FLOAT =================
+  i_float = 1.0; j_float = 3.0;
+
+  inicio = micros();
+  for(c=0; c<1000000; c++) i_float = i_float + j_float;
+  fim = micros();
+  Serial.print("FLOAT + : "); Serial.println(fim - inicio);
+
+  i_float = 1.0;
+  inicio = micros();
+  for(c=0; c<1000000; c++) i_float = i_float * j_float;
+  fim = micros();
+  Serial.print("FLOAT * : "); Serial.println(fim - inicio);
+
+  // ================= LONG =================
+  i_long = 1; j_long = 3;
+
+  inicio = micros();
+  for(c=0; c<1000000; c++) i_long = i_long + j_long;
+  fim = micros();
+  Serial.print("LONG + : "); Serial.println(fim - inicio);
+
+  i_long = 1;
+  inicio = micros();
+  for(c=0; c<1000000; c++) i_long = i_long * j_long;
+  fim = micros();
+  Serial.print("LONG * : "); Serial.println(fim - inicio);
+
+  i_long = 1;
+  inicio = micros();
+  for(c=0; c<1000000; c++) i_long = i_long | j_long;
+  fim = micros();
+  Serial.print("LONG | : "); Serial.println(fim - inicio);
+
+  i_long = 1;
+  inicio = micros();
+  for(c=0; c<1000000; c++) i_long = i_long & j_long;
+  fim = micros();
+  Serial.print("LONG & : "); Serial.println(fim - inicio);
+
+  Serial.println("--------------------");
+  delay(5000);
+}
