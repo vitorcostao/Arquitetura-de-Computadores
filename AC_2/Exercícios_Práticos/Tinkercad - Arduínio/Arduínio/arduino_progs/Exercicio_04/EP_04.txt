@@ -1,18 +1,28 @@
-// EXERCÍCIO PRÁTICO 4
+/*
+	Exercicio Prático 4
+    
+    
+    -> O código representa uma ULA de 4 bits para A, outra ULA
+       de 4 bits para B e uma ULA para a instrução a ser executada
+*/
+
+// Variáveis
+String memory[100]; // Memória do programa
+int pc = 4;	// Contador de programa
+int n = 0;  // Quantia de instruções
+char W;  // Resultado da operação
+char X;  // Variável A
+char Y;  // Variável B
+char S;  // Operaçãp desejada
+int delay_time = 4; // Tempo em segundos
+int pos_input = 0;  // Posição na string de entrada
+String input; // Entrada de dados.
 
 
-String memory[100]; //memória do programa
-int pc = 4; //contador de programa
-int n = 0; //numero de instruções
-char W; //resultado da operação
-char X; //variável 1
-char Y; //variável 2
-char S; //operação desejada
-int delay_time = 4; //em segundos
-int pos_input = 0; //posição na string de entrada
-String input; //entrada
-
-
+/*
+	Procedimento setup para inicializar comunicação serial e pinos
+    
+*/
 void setup(){
   Serial.begin(666);
   pinMode(13, OUTPUT); //F3
@@ -21,15 +31,27 @@ void setup(){
   pinMode(10, OUTPUT); //F0
 }
 
+/*
+	Procedimento looping para execução	
+*/
 void loop(){
   if (Serial.available() > 0) {
-    input = Serial.readString();
-  	load_memory(input);
-    program_execution();
+    input = Serial.readString(); // Ler entrada
+  	load_memory(input); // Carregar na memoria
+    program_execution(); // Executar
   }
 }
 
+/*
+	Procedimento que carrega os dados na memória
+    
+    @param input Entrada de dados
+    
+    1) As quatro primeiras posições são para o PC, W, X, Y
+    2) As outras posições servem para indicar as instruções do programa
+*/
 void load_memory(String input){
+  
   memory[0] = String(pc); //PC
   memory[1] = "0"; //W
   memory[2] = "0"; //X
@@ -37,11 +59,23 @@ void load_memory(String input){
   
   //carregar dados da memória
   while(pos_input < input.length()){
+    
+    // Ocupar posições vazias
     memory[n+4] = get_sub_string(input);
     n++;
   }
 }
 
+/*
+	Função que retorna uma substring
+    
+    -> Esta função lê os dados do buffer para obter umas instrução 
+       que possui um mnemônico de 3 caracteres.	
+    
+    @param input Entrada de dados
+    @return sub Substring retornada
+
+*/
 String get_sub_string(String input){
   int j = 0;
   String sub;
@@ -56,7 +90,11 @@ String get_sub_string(String input){
   return sub;
 }
 
+/*
+	Procedimento que serve para simular execução do programa
+*/
 void program_execution(){
+  
   display(); //mostrar carga do vetor
   
   for(int i = 0; i < n; i++){
@@ -81,7 +119,17 @@ void program_execution(){
   Serial.println("\n=== End of Execution! ===\n");
 }
 
+/*
+	Função que retorna o resultado da operação 
+    
+    @param x Variável A
+    @param y Variável B
+    @param s Operação a ser executada
+    @return result String de resultado
+*/
 String operation(char x, char y, char s){
+  
+  // Converter para inteiros
   int result = 0;
   int A = convert_to_int(x);
   int B = convert_to_int(y);
@@ -140,11 +188,14 @@ String operation(char x, char y, char s){
    	  Serial.println("op:" + String(s) + " a:" + String(A) + " b:" + String(B));
       Serial.println( "Operação invalida!" );
   } 
+  
+  // Trabalhando números negativos
   result = result & 0x0F;
   
   return String(result);
 }
 
+// Caractere para inteiro
 int convert_to_int(char x){
   int result;
    
@@ -157,6 +208,7 @@ int convert_to_int(char x){
   return result;
 }
 
+// Inteiro para binário
 String convert_to_binary(int x) {
   char v[5];
   for (int i = 0; i < 4; i++) {
@@ -167,6 +219,7 @@ String convert_to_binary(int x) {
   return String(v);
 }
 
+// Inteiro para hexa
 char convert_to_hexa(int x) {
   char result;
   if (x >= 0 && x <= 9) {
@@ -177,6 +230,7 @@ char convert_to_hexa(int x) {
   return result;
 }
 
+// Exibir dados no diplay
 void display(){
   Serial.print("|");
   for(int i = 0; i < (n+4); i++){
@@ -186,6 +240,7 @@ void display(){
   Serial.print("\n");
 }
 
+// Exibir dados no diplay marcando acesso à memória
 void display(int address){
   Serial.print("|");
   for(int i = 0; i < (n+4); i++){
@@ -198,6 +253,7 @@ void display(int address){
   Serial.print("\n");
 }
 
+// Ligando os leds dos resultados
 void light_led(String result) {
   int valor = result.toInt();
   String lux = convert_to_binary(valor);
