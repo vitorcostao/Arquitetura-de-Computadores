@@ -15,17 +15,15 @@ Para cada bit da soma, temos duas funções importantes:
 
 * **Propagate (P):**
 
-  $$
-  P_i = A_i \oplus B_i
-  $$
+  
+  $$P_i = A_i \oplus B_i$$
 
   Indica se o carry de entrada será propagado para a próxima posição.
 
 * **Generate (G):**
 
-  $$
-  G_i = A_i \cdot B_i
-  $$
+ 
+  $$G_i = A_i \cdot B_i$$
 
   Indica se a posição gera um carry independentemente da entrada.
 
@@ -37,27 +35,26 @@ O carry de cada posição pode ser escrito como:
 
 * Carry de entrada (normalmente zero):
 
-  $$
-  C_0
-  $$
+  
+$$C_0$$
 
 * Primeiros carries:
 
-  $$
-  C_1 = G_0 + (P_0 \cdot C_0)
-  $$
+  
+  $$C_1 = G_0 + (P_0 \cdot C_0)$$
+  
 
-  $$
-  C_2 = G_1 + (P_1 \cdot G_0) + (P_1 \cdot P_0 \cdot C_0)
-  $$
+  
+  $$C_2 = G_1 + (P_1 \cdot G_0) + (P_1 \cdot P_0 \cdot C_0)$$
+  
 
-  $$
-  C_3 = G_2 + (P_2 \cdot G_1) + (P_2 \cdot P_1 \cdot G_0) + (P_2 \cdot P_1 \cdot P_0 \cdot C_0)
-  $$
+  
+  $$C_3 = G_2 + (P_2 \cdot G_1) + (P_2 \cdot P_1 \cdot G_0) + (P_2 \cdot P_1 \cdot P_0 \cdot C_0)$$
+  
 
-  $$
-  C_4 = G_3 + (P_3 \cdot G_2) + (P_3 \cdot P_2 \cdot G_1) + (P_3 \cdot P_2 \cdot P_1 \cdot G_0) + (P_3 \cdot P_2 \cdot P_1 \cdot P_0 \cdot C_0)
-  $$
+  
+  $$C_4 = G_3 + (P_3 \cdot G_2) + (P_3 \cdot P_2 \cdot G_1) + (P_3 \cdot P_2 \cdot P_1 \cdot G_0) + (P_3 \cdot P_2 \cdot P_1 \cdot P_0 \cdot C_0)$$
+  
 
 ---
 
@@ -65,9 +62,8 @@ O carry de cada posição pode ser escrito como:
 
 A soma de cada bit é dada por:
 
-$$
-S_i = P_i \oplus C_i
-$$
+
+$$S_i = P_i \oplus C_i$$
 
 Ou seja, a soma depende do **propagate** e do carry calculado antecipadamente.
 
