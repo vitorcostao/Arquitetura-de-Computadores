@@ -1,3 +1,10 @@
+# Descrição das instruções
+
+
+# Memória
+# lw Registrador, deslocamento(Endereço ou Label)
+# sw Registrador, deslocamento(Endereço ou Label)
+
 
 .text
 .globl main
