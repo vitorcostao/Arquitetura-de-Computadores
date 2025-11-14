@@ -5,11 +5,6 @@
 # srl (Shift Right Logical): Registrador destino, Registrador fonte, Quantia bits deslocados para esquerda
 # sra (Shift Right Arithmetic): Registrador destino, Registrador fonte, Quantia bits deslocados para direita (1 - negativo / 0 - positivo)
 
-
-
-
-
-
 .text
 .globl main
 
