@@ -26,12 +26,12 @@ main:
 	ori $s3, $zero, 5 # d
 	
 	# Somando valores
-	add $t0, $s0, $s1 # Atribuição -> t0: s0 + s1 (a + b)
-	add $t1, $s2, $s3 # Atribuição -> t1: s2 + s3 (c + d)
-	sub $s4, $t0, $t1 # Atribuição -> (x)s4: t0 - t1 
+	add $t0, $s0, $s1 # -> t0: s0 + s1 (a + b)
+	add $t1, $s2, $s3 # -> t1: s2 + s3 (c + d)
+	sub $s4, $t0, $t1 # -> (x)s4: t0 - t1 
 	
-	sub $t3, $s0, $s1 # Atribuição -> t3: s0 - s1 (a - b)
-	add $s5, $t3, $s4 # Atribuição -> (y)s5: t3 - s4 (t3 + x)
-	sub $s1, $s4, $s5 # Atribuição -> s1 = x - y
+	sub $t3, $s0, $s1 # -> t3: s0 - s1 (a - b)
+	add $s5, $t3, $s4 # -> (y)s5: t3 - s4 (t3 + x)
+	sub $s1, $s4, $s5 # -> s1 = x - y
 	
 	
