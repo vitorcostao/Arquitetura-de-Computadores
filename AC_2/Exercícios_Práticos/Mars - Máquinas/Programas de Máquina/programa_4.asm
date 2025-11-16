@@ -13,7 +13,7 @@
 
 main:
 	
-	ori $s0, $zero, 3 # -> s0 = 15
+	ori $s0, $zero, 3 # -> s0 = 3
 	ori $s1, $zero, 4 # -> s1 = 4
 	
 	sll $t0, $s0, 4   # -> t0 = 16x
