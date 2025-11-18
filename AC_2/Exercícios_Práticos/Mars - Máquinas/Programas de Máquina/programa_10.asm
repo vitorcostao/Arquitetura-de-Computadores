@@ -28,6 +28,8 @@ main:
 	
 	
 
+	f -> $s0
+
 
 .data
 x: .word 5
