@@ -7,31 +7,37 @@
 # Desvio incondicional
 # j Label
 
-
 .text
 .globl main
+
 main:
-    ori $s0, $zero, 0    # i = 0
-    ori $s1, $zero, 0    # soma = 0
-    ori $s2, $zero, 0    # resultado temporário
-    ori $t1, $zero, 100  # n = 100
-    la  $t0, vetor       # t0 = endereço base do vetor
 
-loop:
-    sll $t2, $s0, 1      # t2 = 2*i
-    addi $s2, $t2, 1     # result = 2*i + 1
-    sw   $s2, 0($t0)     # vetor[i] = result
-
-    add  $s1, $s1, $s2   # soma += result
-
-    addi $t0, $t0, 4     # próximo endereço
-    addi $s0, $s0, 1     # i++
-    bne  $s0, $t1, loop  # repetir enquanto i != 100
-    
-    sw   $s1, 0($t0)
-
+	lw $t0, a
+	lw $t1, i
+	addi $s0, $0, 0 
+	
+	addi $t2, $t0, 400
+	
+	loop:
+	      beq $t0, $t2, fim 
+	      
+	      sll  $t3, $t1, 1 
+	      addi $t3, $t3, 1 
+	      
+	      sw $t3, ($t0) 
+	      
+	      add  $s0, $s0, $t3 
+	      
+	      addi $t1, $t1, 1
+	      addi $t0, $t0, 4
+	      
+	      j loop
+	      
+	fim: 
+	
+		sw $s0, ($t2)
+		
 .data
-vetor:  .space 400   
-soma:   .word 0      
-
+a: .word 0x10010008
+i: .word 0
 
