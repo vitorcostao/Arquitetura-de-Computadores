@@ -69,4 +69,28 @@ Desse modo, o mapeamento de endereços de memória principal e endereços de cac
 ### Modos de mapeamento
  
 <img width="827" height="420" alt="Captura de tela 2026-08-13 142515" src="https://github.com/user-attachments/assets/0feb8e44-3b36-4bc3-aba4-0143ca148f3c" />
- 
+
+### Exemplo de arquitetura de 32 bits com mapeamento direto
+
+Nessa arquitetura, o endereço possui 20 bits de tag, que é para informar se aquele dado realmente é o dado que a CPU deseja, 10 bits de índice para identificar slot onde o dado está e 2 bits para offset de byte, que é utilizado para identificar o byte desejado dentro daquela palavra. Além disso, o bit de validade e tag passam por uma porta and que informa a existência do dado na memória cache. Ademais, cada slot possui 1 bit de validade, 20 bits de tag e 32 bits de dados o que representa 4 bytes.
+
+#### Explorando localidade espacial com 32 bits
+
+A localidade espacial diz que se um dado for referenciado, os seus vizinhos também tendem a ser. Desse modo, para explorar tal princípio, é possível construir uma arquitetura em que o endereço é dividido em 18 bits de tag, 8 bits de índice, 4 bits de offset de bloco e 2 bits para offset de byte.
+
+Diferentemente da arquitetura mostrada acima, a presença do offset de bloco é algo novo, pois os dados compreendidos na cache não terão apenas um bloco capaz de armazenar 1 palavra de 4 bytes, mas sim um bloco capaz de armazenar 16 palavras de 4 bytes. Concluindo, o offset e bloco serve como chave do multiplexador para determinar qual é a palavra correta a ser passada. 
+> OBS: Como aumentou o tamanho dos blocos, o número de índices diminui de 1024 para 256 nas devidas proporções
+
+### Exemplo de arquitetura de 32 bits com mapeamento associativo por conjunto (4 vias)
+
+Nessa arquitetura, o endereço terá 22 bits de tag, 8 bits de índice o que corresponde a 256 entradas e outros 2 bits. Dessa forma, o termo conjunto representa uma linha específica, por exemplo a linha 45, contendo todas as informações das quatro vias, ou seja, bit de validade, tag e dados. Para cada via, existirá a porta and com sua tag e bit de validade para indicar se aquela linha é de fato a linha correta e ao final uma porta or para indicar o acerto da cache. Quanto ao dado, para ser extraído, é usado um multiplexador 4 para 1 que utiliza como sinal de seleção a indicação de qual via obteve o acerto nas comparações anteriores, permitindo encaminhar para a CPU apenas o dado correspondente à via correta.
+
+### Exemplo de arquitetura com mapeamento completamente associativo
+
+Nessa arquitetura, o endereço possui apenas 5 bits para gerenciar um espaço de 32 palavras, sendo dividido exclusivamente em 3 bits de tag e 2 bits para offset. Diferentemente das arquiteturas anteriores, não existe o campo de índice, pois a memória cache é composta por um único grande conjunto que abriga todos os blocos de forma totalmente flexível.
+
+#### Explorando a flexibilidade e o hardware
+
+Dessa forma, a cache possui 1 único slot contendo 4 blocos, onde cada bloco é capaz de armazenar 4 palavras. Como o mapeamento é completamente associativo, qualquer bloco da memória principal pode ser posicionado em qualquer um dos blocos disponíveis da cache, eliminando os conflitos de linha.
+
+Para localizar o dado, a CPU realiza 4 comparações simultâneas, testando a tag do endereço contra as tags de todos os blocos presentes no slot. Cada bloco possui o seu próprio circuito de verificação (bit de validade e comparador de tag), e um circuito de multiplexação utiliza o resultado dessas comparações para extrair e direcionar a palavra correta para o processador.
