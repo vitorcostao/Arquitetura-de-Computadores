@@ -94,3 +94,15 @@ Nessa arquitetura, o endereço possui apenas 5 bits para gerenciar um espaço de
 Dessa forma, a cache possui 1 único slot contendo 4 blocos, onde cada bloco é capaz de armazenar 4 palavras. Como o mapeamento é completamente associativo, qualquer bloco da memória principal pode ser posicionado em qualquer um dos blocos disponíveis da cache, eliminando os conflitos de linha.
 
 Para localizar o dado, a CPU realiza 4 comparações simultâneas, testando a tag do endereço contra as tags de todos os blocos presentes no slot. Cada bloco possui o seu próprio circuito de verificação (bit de validade e comparador de tag), e um circuito de multiplexação utiliza o resultado dessas comparações para extrair e direcionar a palavra correta para o processador.
+
+### Acesso à cache
+
+Quando se fala de acesso à cache, como manter a coerência com a memória principal ao realizar uma operação de escrita? Manter a coerência entre a memória cache e a memória principal (RAM) durante operações de escrita é um dos maiores desafios na arquitetura de computadores. Como a cache é muito mais rápida, quando o processador altera um dado, ele o escreve primeiro na cache. Se a memória principal não for atualizada, o sistema passa a ter duas versões diferentes do mesmo dado. Para resolver isso existem duas soluções:
+
+#### 1) Write-Through (Escrita Direta)
+
+Nesta política, toda vez que o processador altera um dado na cache, essa alteração é imediatamente escrita na memória principal. Como vantagem, a memória principal está sempre atualizada e a consistência é garantida de forma simples.
+
+#### 2) Write-Back (Escrita Adiada / Retornada)
+
+Neste modelo, a escrita ocorre apenas na cache. O bloco de dados modificado recebe uma marcação chamada dirty bit. Esse dado só será copiado para a memória principal quando aquele bloco específico precisar ser removido da cache para dar espaço a um novo dado.
